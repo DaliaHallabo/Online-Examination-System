@@ -1,0 +1,98 @@
+﻿@{
+    Layout = null;
+    var mcqCount = Model.Count(q => q.Question_Type == "MCQ");
+    var tfCount = Model.Count(q => q.Question_Type == "True/False");
+}
+@model List<Questions>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Display Course Questions</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-size: 28px;
+            color: #333;
+            text-decoration: underline;
+        }
+
+        .card {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center; 
+        }
+
+        .card-text {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 0;
+        }
+
+        .table {
+            margin-top: 20px;
+        }
+
+       .table thead {
+            background-color: #901b20;
+            color: white;
+        }
+
+       .table tbody tr:nth-child(even) {
+          background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="section-heading">Questions are related to Course #@Model.First().CrsID</h2>
+
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>Question ID</th>
+                    <th>Question Text</th>
+                    <th>Question Type</th>
+                    <th>Question Answer</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var x in Model)
+                {
+                    <tr>
+                        <td>@x.QuestionID</td>
+                        <td>@x.Question_Text</td>
+                        <td>@x.Question_Type</td>
+                        <td>@x.Question_Answer</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">Question Counts</h5>
+                <p class="card-text">
+                    The Total number of Questions for this course are @Model.Count()<br>
+                    MCQ Questions Count: @mcqCount<br>
+                    True/False Questions Count: @tfCount
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

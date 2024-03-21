@@ -1,0 +1,94 @@
+﻿@{
+    ViewData["Title"] = "Welcome to ITI";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ITI</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ProjectDB.styles.css" asp-append-version="true" />
+
+    <style>
+        .navbar-top,
+        .navbar-bottom {
+            background-color: #901b20;
+        }
+    </style>
+    <style>
+        body {
+            color: black;
+        }
+
+        .overlay {
+            background-color: whitesmoke; /* Adjust the opacity here */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Ensure the overlay stays behind content */
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+
+    <header>
+        <nav class="navbar navbar-top navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom bg-light box-shadow mb-3">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <img src="/Images/ITI.png" />
+
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody() <!-- Render the content of the child views here -->
+        </main>
+    </div>
+
+    <footer class="border-top footer ">
+        <div class="container">
+            &copy; 2024 - ITI Online Examination System
+        </div>
+    </footer>
+
+    <style>
+        /* Apply the custom color to the footer */
+        .footer {
+            background-color: #901b20;
+            padding: 20px;
+            text-align: left;
+            color: white;
+            line-height: 0;
+        }
+
+        h3 {
+            color: ghostwhite;
+        }
+
+        img {
+            width: 50px;
+        }
+    </style>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

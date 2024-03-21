@@ -1,0 +1,45 @@
+﻿@{ Layout = null;}
+@model List<Course_Topics>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>DisplayTopics</title>
+    <style>
+        .course-topics-heading {
+            text-decoration: underline;
+            font-size: 40px;
+            color: #901b20; 
+            margin-bottom: 30px; 
+        }
+
+        li {
+            font-size: 24px; 
+            margin-bottom: 10px; 
+        }
+
+        .list-group {
+            background-color: #f8f9fa;
+            padding: 20px; 
+            border-radius: 10px; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center course-topics-heading">Course Topics</h1>
+                <ul class="list-group">
+                    @foreach (var x in Model)
+                    {
+                        <li class="list-group-item">@x.Topics</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

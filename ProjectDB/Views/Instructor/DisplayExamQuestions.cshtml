@@ -1,0 +1,74 @@
+﻿@{ 
+    Layout = null;
+    var instructorId = ViewBag.InstructorId;
+}
+@model List<ExamQuestionResponse>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>DisplayExamQuestions</title>
+    <style>
+
+        thead, .btn {
+            background-color: #901b20;
+            color: white;
+        }
+
+        .center-heading {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            font-family: Arial, sans-serif;
+            text-decoration: underline;
+        }
+
+
+    </style>
+</head>
+<body>
+    <h2 class="center-heading">Exam is related to Course #@Model.First().Questions.CrsID</h2>
+
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>Question ID</th>
+                <th>Question Text</th>
+                <th>Question Type</th>
+                <th>Question Choice 1</th>
+                <th>Question Choice 2</th>
+                <th>Question Choice 3</th>
+                <th>Question Answer</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var x in Model)
+            {
+                <tr>
+                    <td>@x.QuestionID</td>
+                    <td>@x.Questions.Question_Text</td>
+                    <td>@x.Questions.Question_Type</td>
+                    @if (x.Questions.Question_Type == "MCQ")
+                    {
+                        <td>@x.Questions.Choices.Choice1</td>
+                        <td>@x.Questions.Choices.Choice2</td>
+                        <td>@x.Questions.Choices.Choice3</td>
+                        <td>@x.Questions.Question_Answer</td>
+                    }
+                    else if (x.Questions.Question_Type == "True/False")
+                    {
+                        <td>True</td>
+                        <td>False</td>
+                        <td>Neither</td>
+                        <td>@x.Questions.Question_Answer</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-action="Index" asp-controller="Instructor" asp-route-id="@instructorId" class="btn">Go Back</a>
+</body>
+</html>

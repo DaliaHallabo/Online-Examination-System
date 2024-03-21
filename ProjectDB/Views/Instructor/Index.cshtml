@@ -1,0 +1,207 @@
+﻿@{
+    Layout = null;
+    var course = ViewBag.Course;
+}
+
+    @model Instructors
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        .department-separator::after {
+            content: " || ";
+        }
+
+        .department-separator:last-child::after {
+            content: "";
+        }
+
+        thead, .btn {
+            background-color: #901b20;
+            color: white;
+        }
+
+        .container {
+            margin-top: 60px;
+            margin-bottom: 60px;
+        }
+
+        .container-wrapper {
+            width: 60.5%;
+            margin: 0 auto;
+        }
+
+        .exam-form-response, .exam-student-form-response {
+            margin-top: 20px; 
+            margin-bottom: 20px;
+        }
+
+        .error-message {
+            margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 15px;
+            border-radius: .25rem;
+            color: #721c24;
+            font-size: 1.5em;
+        }
+
+        }
+
+    </style>
+    <title>Instructor Profile</title>
+</head>
+<body>
+    <div class="container mt-5 table-responsive">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center mb-4">Instructor Profile</h1>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@Model.Ins_Name</h5>
+                        <p class="card-text"><strong>Instructor ID:</strong> @Model.InsID</p>
+                        <p class="card-text">
+                            <strong>Departments:</strong>
+                            @foreach (var department in Model.Departments)
+                            {
+                                <span class="department-separator">@department.DeptName</span>
+                            }
+                        </p>
+                        <p class="card-text">
+                            <a asp-action="DisplayCoursesForInstructor" asp-controller="Instructor" asp-route-id="@course.CourseID" class="btn">Courses & Student Count</a>
+                            || <a class="btn" asp-controller="Home" asp-action="Index">Logout</a>
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @foreach (var x in Model.Departments)
+    {
+        <div class="container-wrapper">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Department Number</th>
+                        <th>Operations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@x.DeptID</td>
+                        <td>
+                            <a asp-action="DisplayStudentsByDepartmentID" asp-controller="Instructor" asp-route-id="@x.DeptID" class="btn">Show Students Details</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    }
+
+    <!-- Wrap the first form and its message container in a separate container -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form id="examForm" asp-action="DisplayExamQuestions" asp-controller="Instructor" method="get" class="mt-4">
+                    <div class="form-group">
+                        <label for="ExamId">Display Exam's Questions & Choices :</label>
+                        <input type="text" id="ExamId" name="ExamId" class="form-control" placeholder="Exam ID">
+                    </div>
+                    <input type="hidden" id="InstructorId" name="id" value="@Model.InsID">
+                    <button type="submit" class="btn btn-lg btn-block mt-2">Submit</button>
+                </form>
+
+                <!-- Container for the first form's message -->
+                <div id="messageContainer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrap the second form and its message container in a separate container -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form id="ExamStudentForm" asp-action="DisplayResponses" asp-controller="Instructor" method="get" class="mt-4">
+                    <div class="form-group">
+                        <label for="ExamId">Exam ID:</label>
+                        <input type="text" id="ExamId" name="ExamId" class="form-control" placeholder="Exam ID">
+
+                        <label for="StdID">Student ID:</label>
+                        <input type="text" id="StdID" name="StdID" class="form-control" placeholder="Student ID">
+                    </div>
+                    <input type="hidden" id="InstructorId" name="id" value="@Model.InsID">
+                    <button type="submit" class="btn btn-lg btn-block mt-2">Submit</button>
+                </form>
+
+                <!-- Container for the second form's message -->
+                <div id="messageContainer2"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    @*1st Form Script*@
+    <script>
+        $(document).ready(function () {
+            $('#examForm').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'GET',
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response.includes('<div class="alert alert-danger custom-alert" role="alert">')) {
+                            var wrappedResponse = '<div class="exam-form-response">' + response + '</div>';
+                            $('#messageContainer').html(wrappedResponse);
+                        } else {
+                            window.location.href = '/Instructor/DisplayExamQuestions?ExamId=' + $('#ExamId').val() + '&id=' + $('#InstructorId').val();
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('Error submitting form:', textStatus, errorThrown);
+                        $('#messageContainer').html('<div class="alert alert-danger">An error occurred while submitting the form. Please try again.</div>');
+                    }
+                });
+            });
+        });
+    </script>
+
+    @*2nd Form Script*@
+    <script>
+        $(document).ready(function () {
+            $('#ExamStudentForm').on('submit', function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: $(this).attr('action'), // The URL to submit the form to
+                    type: 'GET', // The type of request to make (GET or POST)
+                    data: $(this).serialize(), // Serialize the form data for submission
+                    success: function (response) {
+                        // Check for error message with the class 'custom-alert2'
+                        if (response.includes('<div class="alert alert-danger custom-alert2"')) {
+                            // Display the error message in the container
+                            $('#messageContainer2').html(response);
+                        }
+                        else {
+                            // Set the HTML of the entire page to the response HTML
+                            $('html').html(response);
+                        }
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('Error submitting form:', textStatus, errorThrown);
+                        $('#messageContainer2').html('<div class="alert alert-danger error-message">The Exam does exist, but for a different student.</div>');
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

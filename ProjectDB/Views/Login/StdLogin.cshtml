@@ -1,0 +1,82 @@
+﻿@model ProjectDB.LoginViewModel.StudentLogin
+@{ ViewData["Title"] = "Student Login"; }
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Login</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+ 
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #901b20; 
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background-color: #901b20;
+            border-color: #901b20;
+            color: white;
+        }
+
+        .back-link {
+            margin-top: 20px;
+        }
+    </style>
+    <link href="/css/main.css" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <h1 class="card-title text-center">@ViewData["Title"]</h1>
+            <form asp-action="StdLogin">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Student_Email" class="control-label">Email</label>
+                    <input asp-for="Student_Email" class="form-control" />
+                    <span asp-validation-for="Student_Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Student_Pass" class="control-label">Password</label>
+                    <input asp-for="Student_Pass" class="form-control" />
+                    <span asp-validation-for="Student_Pass" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Login" class="btn btn-block" />
+                </div>
+            </form>
+        </div>
+   
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.4/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

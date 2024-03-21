@@ -1,0 +1,53 @@
+﻿@{
+    Layout = null;
+    var instructorId = ViewBag.InstructorId;
+}
+@model List<Students>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DisplayStudentsByDepartmentID</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+
+        thead, .btn {
+            background-color: #901b20;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                    <th>Student Email</th>
+                    <th>Student Birthday</th>
+                    <th>Student Department</th>
+                    <th>Student Courses</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var x in Model)
+            {
+                <tr>
+                    <td>@x.StudentID</td>
+                    <td>@x.Student_Name</td>
+                    <td>@x.Student_Email</td>
+                    <td>@x.Student_BD.ToString("MM/dd/yyyy")</td>
+                    <td>@x.Dept_ID</td>
+                    <td>
+                        <a asp-action="DisplayEachStudentGradesInAllCourses" asp-controller="Instructor" asp-route-id="@x.StudentID" class="btn">Grades</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    <a asp-action="Index" asp-controller="Instructor" asp-route-id="@instructorId" class="btn">Go Back</a>
+
+</body>
+</html>

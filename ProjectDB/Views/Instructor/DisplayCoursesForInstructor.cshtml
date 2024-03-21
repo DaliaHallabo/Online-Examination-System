@@ -1,0 +1,63 @@
+﻿@{
+    Layout = null;
+    var model2 = ViewBag.Student_Courses;
+    var instructorId = ViewBag.InstructorId;
+}
+@model List<Courses>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Display Courses For Instructor</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+
+        thead, .btn {
+            background-color: #901b20;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center my-4">Courses for Instructor</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Course Name</th>
+                            <th>Number of Students</th>
+                            <th>Operations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var x in Model)
+                        {
+                            <tr>
+                                <td>@x.Course_Name</td>
+                                <td>@model2</td>
+                                <td>
+                                    <a asp-action="DisplayTopics" asp-controller="Instructor" asp-route-id="@x.CourseID" class="btn">Course Topics</a>
+                                    || <a asp-action="DisplayCourseQuestions" asp-controller="Instructor" asp-route-id="@x.CourseID" class="btn">Display All Course Questions</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-12">
+                <a asp-action="Index" asp-controller="Instructor" asp-route-id="@instructorId" class="btn float-left">Go Back</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

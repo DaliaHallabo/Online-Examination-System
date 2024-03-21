@@ -1,0 +1,35 @@
+﻿@model List<Student_Courses>;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ShowGrade</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">@Model[1].Students.Student_Name</h1>
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h2>@Model[i].Courses.Course_Name</h2>
+                    <p class="mb-1">Grade: @Model[i].Student_Grade</p>
+                    @if (ViewBag.courseWork != null && ViewBag.courseWork.Count > i)
+                    {
+                        <p class="mb-1"> CourseWork: @(ViewBag.courseWork[i]) / @(ViewBag.courseWork[i])</p>
+                        <p class="mb-1">Total Grade: @(ViewBag.courseWork[i] + Model[i].Student_Grade) / 100</p>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
